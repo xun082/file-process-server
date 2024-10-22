@@ -1,0 +1,29 @@
+// 连接数据库的设置
+datasource db {
+  provider = "mysql"  // 指定数据库类型为 MySQL
+  url      = env("DATABASE_URL")  // 使用 .env 文件中的 DATABASE_URL 进行数据库连接
+}
+
+// 生成 Prisma 客户端代码
+generator client {
+  provider = "prisma-client-js"
+}
+
+// 定义数据库模型
+model User {
+  id        Int      @id @default(autoincrement())  // 自动递增的 ID
+  email     String   @unique                       // 唯一的邮箱
+  name      String?                               // 可选的用户名称
+  posts     Post[]                                // 关联帖子（一个用户可以有多个帖子）
+  createdAt DateTime @default(now())               // 创建时间，默认为当前时间
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())  // 自动递增的帖子 ID
+  title     String                                 // 帖子标题
+  content   String?                                // 帖子内容，允许为空
+  published Boolean  @default(false)               // 是否发布，默认为 false
+  authorId  Int                                    // 用户 ID，用于外键关联
+  author    User     @relation(fields: [authorId], references: [id])  // 关联用户（多对一关系）
+  createdAt DateTime @default(now())               // 帖子的创建时间
+}
