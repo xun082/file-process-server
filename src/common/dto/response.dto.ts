@@ -23,25 +23,64 @@ export class ResponseDto<T> {
 }
 
 export class RequestDetailsDto {
-  @ApiProperty({ description: 'Query parameters', type: 'object' })
+  @ApiProperty({
+    description: 'Query parameters',
+    type: 'object',
+    additionalProperties: true,
+  })
   query: Record<string, any>;
 
-  @ApiProperty({ description: 'Request body', type: 'object' })
+  @ApiProperty({
+    description: 'Request body',
+    type: 'object',
+    additionalProperties: true,
+  })
   body: Record<string, any>;
 
-  @ApiProperty({ description: 'Route parameters', type: 'object' })
+  @ApiProperty({
+    description: 'Route parameters',
+    type: 'object',
+    additionalProperties: true,
+  })
   params: Record<string, any>;
 
-  @ApiProperty({ example: 'POST', description: 'HTTP method' })
+  @ApiProperty({
+    description: 'Request headers',
+    type: 'object',
+    additionalProperties: true,
+    example: {
+      'user-agent': 'Mozilla/5.0',
+      'accept-language': 'en-US',
+      'content-type': 'application/json',
+    },
+  })
+  headers: Record<string, any>;
+
+  @ApiProperty({
+    example: 'POST',
+    description: 'HTTP method',
+    enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
+  })
   method: string;
 
-  @ApiProperty({ example: '/api/v1/auth/login/email', description: 'Request URL' })
+  @ApiProperty({
+    example: '/api/v1/auth/login/email',
+    description: 'Request URL',
+  })
   url: string;
 
-  @ApiProperty({ example: getCurrentTimestamp(), description: 'Request timestamp' })
+  @ApiProperty({
+    example: getCurrentTimestamp(),
+    description: 'Request timestamp',
+    type: 'number',
+  })
   timestamp: number;
 
-  @ApiProperty({ example: '::1', description: 'Client IP address' })
+  @ApiProperty({
+    example: '::1',
+    description: 'Client IP address',
+    format: 'ipv4',
+  })
   ip: string;
 }
 
